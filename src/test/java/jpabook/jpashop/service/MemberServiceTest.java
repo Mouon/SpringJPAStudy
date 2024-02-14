@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Transactional // 테스트 에있으면 바로 롤백해버립니다.
+@Transactional // 테스트에 얘 있으면 바로 롤백해버립니다.
 public class MemberServiceTest {
 
     @Autowired MemberService memberService;
@@ -29,9 +29,10 @@ public class MemberServiceTest {
         member.setName("kim");
 
         //when
-        Long savedId = memberService.join(member);
+        Long savedId = memberService.join(member);// 인서트 쿼리가 안나감 롤백되서
 
         //then
+        //em.flush(); <--flush 쓰면 영속성 컨텍스트에 있는애가 DB에 반영됨
         assertEquals(member, memberRepository.findOne(savedId));
     }
 

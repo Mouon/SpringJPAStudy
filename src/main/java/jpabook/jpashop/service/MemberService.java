@@ -17,6 +17,7 @@ public class MemberService {
 
     /**
      * 회원 가입
+     * 기본적으로 @Transactional 은 false
      */
     @Transactional
     public Long join(Member member) {
