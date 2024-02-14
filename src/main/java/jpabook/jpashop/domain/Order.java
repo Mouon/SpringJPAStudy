@@ -17,7 +17,7 @@ import static javax.persistence.FetchType.*;
 @Entity
 @Table(name = "orders")
 @Getter @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // 생성하는 방식을 통일 : new로 생성하는 방식을 막아줌
 public class Order {
 
     @Id @GeneratedValue
