@@ -18,7 +18,7 @@ import static javax.persistence.FetchType.*;
 @Entity
 @Table(name = "orders")
 @Getter @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED) // 생성하는 방식을 통일 : new로 생성하는 방식을 막아줌
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // 생성하는 방식을 통일 : new로 생성하는 방식을 막아
 public class Order {
 
     @Id @GeneratedValue
@@ -75,7 +75,10 @@ public class Order {
     //==비즈니스 로직==//
     /**
      * 주문 취소
-     */
+     * JPA를 사용할때 가장큰 장점, 이런식으로 하면 쿼리를 직접 다루지 않아도됨
+     * 비즈니스 로직을 엔티티에 둠
+     * 도메인 모델 패턴
+     **/
     public void cancel() {
         if (delivery.getStatus() == DeliveryStatus.COMP) {
             throw new IllegalStateException("이미 배송완료된 상품은 취소가 불가능합니다.");
