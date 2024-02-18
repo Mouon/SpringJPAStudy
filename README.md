@@ -89,3 +89,29 @@ dependencies {
 이런 흐름으로 설정
 
 - 주의점 : `buildscript` 이게 `plugins`이거 앞에 와야함
+
+## 빈등록
+```
+package jpabook.jpashop;
+
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+@Configuration
+public class QueryDslConfig {
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @Bean
+    public JPAQueryFactory jpaQueryFactory() {
+        return new JPAQueryFactory(entityManager);
+    }
+}
+
+
+```
