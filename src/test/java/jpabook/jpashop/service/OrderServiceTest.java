@@ -23,8 +23,8 @@ import static org.junit.Assert.*;
 @SpringBootTest
 @Transactional
 public class OrderServiceTest {
-
     @Autowired EntityManager em;
+
     @Autowired OrderService orderService;
     @Autowired OrderRepository orderRepository;
 
@@ -47,21 +47,6 @@ public class OrderServiceTest {
         assertEquals("주문한 상품 종류 수가 정확해야 한다.", 1, getOrder.getOrderItems().size());
         assertEquals("주문 가격은 가격 * 수량이다.", 10000 * orderCount, getOrder.getTotalPrice());
         assertEquals("주문 수량만큼 재고가 줄어야 한다.", 8, book.getStockQuantity());
-    }
-
-    @Test(expected = NotEnoughStockException.class)
-    public void 상품주문_재고수량초과() throws Exception {
-        //given
-        Member member = createMember();
-        Item item = createBook("시골 JPA", 10000, 10);
-
-        int orderCount = 11;
-
-        //when
-        orderService.order(member.getId(), item.getId(), orderCount);
-
-        //then
-        fail("재고 수량 부족 예외가 발행해야 한다.");
     }
 
     @Test
@@ -91,6 +76,25 @@ public class OrderServiceTest {
         book.setStockQuantity(stockQuantity);
         em.persist(book);
         return book;
+    }
+
+    /**
+     * 예외 터지는거 테스트
+     * */
+    @Test(expected = NotEnoughStockException.class)
+    public void 상품주문_재고수량초과() throws Exception {
+        //given
+        Member member = createMember();
+        Item item = createBook("시골 JPA", 10000, 10);
+
+        int orderCount = 11;
+
+        //when
+        orderService.order(member.getId(), item.getId(), orderCount);
+
+        //then
+        /** 예외가 터져서 then 까지 오면 안된다는것을 명시 */
+        fail("재고 수량 부족 예외가 발행해야 한다.");
     }
 
     private Member createMember() {
