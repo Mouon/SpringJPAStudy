@@ -10,7 +10,6 @@ import java.util.List;
 
 @Entity
 @Getter @Setter
-
 public class Member {
 
     @Id @GeneratedValue
