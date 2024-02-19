@@ -1,12 +1,14 @@
 package jpabook.jpashop.service;
 
 import jpabook.jpashop.domain.Member;
+import jpabook.jpashop.dto.MemberListReponseDTO;
 import jpabook.jpashop.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -35,8 +37,13 @@ public class MemberService {
     }
 
     //회원 전체 조회
-    public List<Member> findMembers() {
-        return memberRepository.findAll();
+    public List<MemberListReponseDTO> findMembers() {
+        List<Member> members = memberRepository.findAll();
+        List<MemberListReponseDTO> response = members.stream()
+                .map(member ->new MemberListReponseDTO(member.getName(),member.getAddress(),member.getOrders()))
+                .collect(Collectors.toList());
+        return response;
+
     }
 
     public Member findOne(Long memberId) {
