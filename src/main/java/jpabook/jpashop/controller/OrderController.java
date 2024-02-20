@@ -4,6 +4,7 @@ import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.Order;
 import jpabook.jpashop.domain.item.Item;
 import jpabook.jpashop.dto.MemberListReponseDTO;
+import jpabook.jpashop.dto.OrderListResponseDTO;
 import jpabook.jpashop.repository.OrderSearch;
 import jpabook.jpashop.service.ItemService;
 import jpabook.jpashop.service.MemberService;
@@ -46,7 +47,7 @@ public class OrderController {
 
     @GetMapping("/orders")
     public String orderList(@ModelAttribute("orderSearch") OrderSearch orderSearch, Model model) {
-        List<Order> orders = orderService.findOrders(orderSearch);
+        List<OrderListResponseDTO> orders = orderService.findOrders(orderSearch);
         model.addAttribute("orders", orders);
 
         return "order/orderList";

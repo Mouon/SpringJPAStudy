@@ -80,11 +80,9 @@ public class OrderRepository {
      * */
     public List<Order> findAll(OrderSearch orderSearch) {
         BooleanBuilder builder = new BooleanBuilder();
-
         if (orderSearch.getOrderStatus() != null) {
             builder.and(order.status.eq(orderSearch.getOrderStatus()));
         }
-
         if (StringUtils.hasText(orderSearch.getMemberName())) {
             builder.and(member.name.like("%" + orderSearch.getMemberName() + "%"));
         }

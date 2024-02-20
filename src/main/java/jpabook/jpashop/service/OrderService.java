@@ -2,6 +2,7 @@ package jpabook.jpashop.service;
 
 import jpabook.jpashop.domain.*;
 import jpabook.jpashop.domain.item.Item;
+import jpabook.jpashop.dto.OrderListResponseDTO;
 import jpabook.jpashop.repository.ItemRepository;
 import jpabook.jpashop.repository.MemberRepository;
 import jpabook.jpashop.repository.OrderRepository;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -60,7 +62,10 @@ public class OrderService {
     }
 
     //검색
-    public List<Order> findOrders(OrderSearch orderSearch) {
-        return orderRepository.findAll(orderSearch);
+    public List<OrderListResponseDTO> findOrders(OrderSearch orderSearch) {
+        List<Order> orders = orderRepository.findAll(orderSearch);
+        return orders.stream()
+                .map(order -> new OrderListResponseDTO(order.getId(),order.getMember(),order.getOrderItems(),order.getDelivery(),order.getOrderDate(),order.getStatus()))
+                .collect(Collectors.toList());
     }
 }

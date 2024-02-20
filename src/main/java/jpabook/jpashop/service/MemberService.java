@@ -39,10 +39,9 @@ public class MemberService {
     //회원 전체 조회
     public List<MemberListReponseDTO> findMembers() {
         List<Member> members = memberRepository.findAll();
-        List<MemberListReponseDTO> response = members.stream()
+        return members.stream()
                 .map(member ->new MemberListReponseDTO(member.getName(),member.getAddress(),member.getOrders()))
                 .collect(Collectors.toList());
-        return response;
 
     }
 
