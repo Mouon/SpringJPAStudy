@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberListReponseDTO {
+    private Long id;
     private String name;
     private Address address;
     private List<Order> orders = new ArrayList<>();

@@ -40,7 +40,7 @@ public class MemberService {
     public List<MemberListReponseDTO> findMembers() {
         List<Member> members = memberRepository.findAll();
         return members.stream()
-                .map(member ->new MemberListReponseDTO(member.getName(),member.getAddress(),member.getOrders()))
+                .map(member ->new MemberListReponseDTO(member.getId(),member.getName(),member.getAddress(),member.getOrders()))
                 .collect(Collectors.toList());
 
     }

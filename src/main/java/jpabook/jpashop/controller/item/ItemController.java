@@ -1,7 +1,13 @@
-package jpabook.jpashop.controller;
+package jpabook.jpashop.controller.item;
 
+import jpabook.jpashop.domain.item.Album;
 import jpabook.jpashop.domain.item.Book;
 import jpabook.jpashop.domain.item.Item;
+import jpabook.jpashop.domain.item.Movie;
+import jpabook.jpashop.dto.item.AlbumDTO;
+import jpabook.jpashop.dto.item.BookDTO;
+import jpabook.jpashop.dto.item.ItemDTO;
+import jpabook.jpashop.dto.item.MovieDTO;
 import jpabook.jpashop.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -21,12 +27,12 @@ public class ItemController {
 
     @GetMapping("/items/new")
     public String createForm(Model model) {
-        model.addAttribute("form", new BookForm());
+        model.addAttribute("form", new BookDTO());
         return "items/createItemForm";
     }
 
     @PostMapping("/items/new")
-    public String create(BookForm form) {
+    public String create(BookDTO form) {
 
         Book book = new Book();
         book.setName(form.getName());
@@ -48,22 +54,28 @@ public class ItemController {
 
     @GetMapping("items/{itemId}/edit")
     public String updateItemForm(@PathVariable("itemId") Long itemId, Model model) {
-        Book item = (Book) itemService.findOne(itemId);
+        Item item = itemService.findOne(itemId);
 
-        BookForm form = new BookForm();
-        form.setId(item.getId());
-        form.setName(item.getName());
-        form.setPrice(item.getPrice());
-        form.setStockQuantity(item.getStockQuantity());
-        form.setAuthor(item.getAuthor());
-        form.setIsbn(item.getIsbn());
+        ItemDTO form;
+        if (item instanceof Book) {
+            Book book = (Book) item;
+            form = new BookDTO(book.getId(), book.getName(), book.getPrice(), book.getStockQuantity(), book.getAuthor(), book.getIsbn());
+        } else if (item instanceof Album) {
+            Album album = (Album) item;
+            form = new AlbumDTO(album.getId(), album.getName(), album.getPrice(), album.getStockQuantity(), album.getArtist(), album.getEtc());
+        } else if (item instanceof Movie) {
+            Movie movie = (Movie) item;
+            form = new MovieDTO(movie.getId(), movie.getName(), movie.getPrice(), movie.getStockQuantity(), movie.getDirector(), movie.getActor());
+        } else {
+            throw new IllegalArgumentException("알 수 없는 아이템 유형입니다: " + item.getClass());
+        }
 
         model.addAttribute("form", form);
         return "items/updateItemForm";
     }
 
     @PostMapping("items/{itemId}/edit")
-    public String updateItem(@PathVariable Long itemId, @ModelAttribute("form") BookForm form) {
+    public String updateItem(@PathVariable Long itemId, @ModelAttribute("form") BookDTO form) {
 
         itemService.updateItem(itemId, form.getName(), form.getPrice(), form.getStockQuantity());
 
