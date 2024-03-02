@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 public class BookDTO extends ItemDTO {
 
@@ -14,6 +13,8 @@ public class BookDTO extends ItemDTO {
     private String isbn;
 
     public BookDTO(Long id, String name, int price, int stockQuantity, String author, String isbn) {
-        super();
+        super(id, name, price, stockQuantity);
+        this.author = author;
+        this.isbn = isbn;
     }
 }

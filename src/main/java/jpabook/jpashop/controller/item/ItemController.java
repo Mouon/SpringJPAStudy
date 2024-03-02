@@ -55,7 +55,7 @@ public class ItemController {
     @GetMapping("items/{itemId}/edit")
     public String updateItemForm(@PathVariable("itemId") Long itemId, Model model) {
         Item item = itemService.findOne(itemId);
-
+        model.addAttribute("itemId", itemId);
         ItemDTO form;
         if (item instanceof Book) {
             Book book = (Book) item;
@@ -74,6 +74,9 @@ public class ItemController {
         return "items/updateItemForm";
     }
 
+    /**
+     * 준영속 엔티티
+     * */
     @PostMapping("items/{itemId}/edit")
     public String updateItem(@PathVariable Long itemId, @ModelAttribute("form") BookDTO form) {
 

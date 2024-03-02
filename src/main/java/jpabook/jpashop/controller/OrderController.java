@@ -36,6 +36,9 @@ public class OrderController {
         return "order/orderForm";
     }
 
+    /**
+     * 식별자만 넘겨서 비즈니스 로직을 해결
+     * */
     @PostMapping("/order")
     public String order(@RequestParam("memberId") Long memberId,
                         @RequestParam("itemId") Long itemId,
@@ -44,7 +47,9 @@ public class OrderController {
         orderService.order(memberId, itemId, count);
         return "redirect:/orders";
     }
-
+    /**
+     * 단순 위임인 경우에는 컨트롤러에서 레포지토리 접근하기
+     * */
     @GetMapping("/orders")
     public String orderList(@ModelAttribute("orderSearch") OrderSearch orderSearch, Model model) {
         List<OrderListResponseDTO> orders = orderService.findOrders(orderSearch);
