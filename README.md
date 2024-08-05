@@ -13,7 +13,7 @@ Querydsl은 이러한 동적 쿼리를 쉽게 작성할 수 있도록 도와줌.
 
 ### 코드 설명
 
-```
+```java
 public List<Order> findAll(OrderSearch orderSearch) {
     // BooleanBuilder 객체를 생성하여 동적 쿼리를 구성합니다.
     BooleanBuilder builder = new BooleanBuilder();
@@ -61,7 +61,7 @@ Querydsl을 사용하면 Java 언어로 쿼리를 작성할 수 있으므로 SQL
 
 ### 설정이 조금 복잡하니까 기록
 
-```
+```gradle
 buildscript {
 	ext {
 		queryDslVersion = "4.4.0"
@@ -91,7 +91,7 @@ dependencies {
 - 주의점 : `buildscript` 이게 `plugins`이거 앞에 와야함
 
 ## 빈등록
-```
+```java
 package jpabook.jpashop;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
